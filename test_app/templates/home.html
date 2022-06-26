@@ -1,0 +1,93 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<div class="container">
+    <div class="row" style="display:flex; justify-content: space-between;">
+    <h1>Hello {{logged_user.name}},</h1>
+    <form action="/logout" method="post" >
+        {% csrf_token %}
+        <button class="btn btn-primary btn-danger" type="submit" name="btn" value="Logout">Logout</button>
+    </form>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="row">
+            <!-- 1 of 2 -->
+            <h5>Your Wish List:</h5>
+            <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Added By</th>
+                    <th scope="col">Date Added</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for key in user_item%}
+                  <tr>
+                    <td scope="row"> <a href="home/{{key.id}}/show">{{key.item}}</a> </td>
+                    <td>{{key.user.name}}</td>
+                    <td>{{key.created_at}}</td>
+                    <td>  <a href="Delete_Wish/{{key.id}}">Delete</a> </td>
+                 
+                  </tr>
+               {% endfor %}
+               {% for key in logged_user.fav_item.all%}
+               <tr>
+                 <td scope="row"> <a href="home/{{key.id}}/show">{{key.item}}</a> </td>
+                 <td>{{key.user.name}}</td>
+                 <td>{{key.created_at}}</td>
+                 <td>  <a href="Remove_Wish/{{key.id}}">Remove from My Wish list</a> </td>
+              
+               </tr>
+            {% endfor %}
+               
+             
+                </tbody>
+              </table>
+        </div>
+        <div class="row">
+        <!-- <div class="col"> -->
+            <!-- 2 of 2 -->
+            <h5>Other User's Wish List:</h5>
+            <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Added By</th>
+                    <th scope="col">Date Added</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   {% for items in other_user_list %}
+                     
+                    <tr>
+                      <td scope="row"> <a href="home/{{items.id}}/show">{{items.item}}</a> </td>
+                      <td>{{items.user.name}}</td>
+                      <td>{{items.created_at}}</td>
+                      <td> 
+                      <form method="post" action="/Add_Wish">
+                        {% csrf_token %}
+                        <input type="hidden" name="item_id" value="{{items.id}}">
+                        <button class="btn btn-primary btn-info" type="submit" value=""> Add to Wish List </button>
+                      </form>
+                    </td>
+                    </tr>
+
+                     
+                    
+                   {% endfor %}
+                </tbody>
+              </table>
+        </div>
+        </div>
+    </div>
+    <div class="row" style="display:flex; justify-content:flex-end;">
+        <div>
+            <p class="btn btn-primary btn-light" ><a href="new/{{logged_user.id}}">Add Item</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

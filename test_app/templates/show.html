@@ -1,0 +1,38 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<div class="container">
+    <div class="row" style="display:flex; justify-content: space-between;">
+        <div>
+            <h1>Create a New Wish List Item</h1>
+        </div>
+        <div>
+            <div>
+                <p class="btn btn-primary btn-light" ><a href="/home">Home</a></p>
+            </div>
+
+            <div>
+                <form action="/logout" method="post" >
+                    {% csrf_token %}
+                    <button class="btn btn-primary btn-danger" type="submit" name="btn" value="Logout">Logout</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h1>{{item_displayed.item}} </h1>
+            <p>Users who added this product/item under their wish list:</p>
+            {% for key in item_displayed.user_fav.all %}
+                  <p>{{key.name}}</p>
+            {% endfor %}
+
+        </div>
+    </div>
+
+
+
+</div>
+{% endblock %}

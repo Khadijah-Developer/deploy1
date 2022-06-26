@@ -1,0 +1,51 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+{% if messages %}
+<ul class="messages">    
+    {% for message in messages %}    
+        <li {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>    
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="container">
+    <div class="row" style="display:flex; justify-content: space-between;">
+        <div>
+            <h1>Create a New Wish List Item</h1>
+        </div>
+        <div>
+            <div>
+                <p class="btn btn-primary btn-light" ><a href="/home">Home</a></p>
+            </div>
+
+            <div>
+                <form action="/logout" method="post" >
+                    {% csrf_token %}
+                    <button class="btn btn-primary btn-danger" type="submit" name="btn" value="Logout">Logout</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col">
+            <form method="post" action="{% url 'create'  %}">
+                <div class="form-row">
+                    <div class="col-md-3 mb-3"><label for="item">Item/Product:</label></div>
+                    <div class="col-md-6 mb-3">
+                      <input type="text" class="form-control" id="" value="" name="item">
+                    </div>
+                  </div>
+                
+               <div class="sub">
+                {% csrf_token %}
+                <button class="btn btn-primary btn-warning" type="submit" name="btn" value="Add">Add</button>
+               </div>
+    
+              </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
